@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.light {
+            background-color: white;
+            color: black;
+        }
+        body.dark {
+            background-color: #1e293b;
+            color: white;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .info {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="light">
+    <h1>Theme Debug Test</h1>
+    
+    <div class="info">
+        <h3>Current State:</h3>
+        <p>HTML classList: <span id="htmlClass"></span></p>
+        <p>Body classList: <span id="bodyClass"></span></p>
+        <p>localStorage theme: <span id="localTheme"></span></p>
+        <p>System prefers dark: <span id="systemDark"></span></p>
+    </div>
+    
+    <button onclick="toggleTheme()">Toggle Theme</button>
+    <button onclick="setLight()">Force Light</button>
+    <button onclick="setDark()">Force Dark</button>
+    <button onclick="clearStorage()">Clear Storage</button>
+    <button onclick="updateInfo()">Refresh Info</button>
+    
+    <script>
+        function updateInfo() {
+            document.getElementById('htmlClass').textContent = document.documentElement.className || 'none';
+            document.getElementById('bodyClass').textContent = document.body.className || 'none';
+            document.getElementById('localTheme').textContent = localStorage.getItem('theme') || 'none';
+            document.getElementById('systemDark').textContent = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+        
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (isDark) {
+                document.documentElement.classList.remove('dark');
+                document.body.className = 'light';
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                document.body.className = 'dark';
+                localStorage.setItem('theme', 'dark');
+            }
+            updateInfo();
+        }
+        
+        function setLight() {
+            document.documentElement.classList.remove('dark');
+            document.body.className = 'light';
+            localStorage.setItem('theme', 'light');
+            updateInfo();
+        }
+        
+        function setDark() {
+            document.documentElement.classList.add('dark');
+            document.body.className = 'dark';
+            localStorage.setItem('theme', 'dark');
+            updateInfo();
+        }
+        
+        function clearStorage() {
+            localStorage.removeItem('theme');
+            updateInfo();
+        }
+        
+        // Initialize
+        updateInfo();
+    </script>
+</body>
+</html>

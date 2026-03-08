@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socioholics Club Website</title>
+    <script>
+      // Theme initialization - runs before React to prevent flash
+      (function() {
+        try {
+          const theme = localStorage.getItem('theme');
+          console.log('Initial theme from localStorage:', theme);
+          
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          console.log('System prefers dark:', prefersDark);
+          
+          // Only apply dark if explicitly set to 'dark' in localStorage
+          // OR if no preference is saved AND system prefers dark
+          if (theme === 'dark' || (!theme && prefersDark)) {
+            document.documentElement.classList.add('dark');
+            console.log('Applied dark mode');
+          } else {
+            document.documentElement.classList.remove('dark');
+            console.log('Applied light mode');
+          }
+        } catch (e) {
+          console.error('Theme init error:', e);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+
+
